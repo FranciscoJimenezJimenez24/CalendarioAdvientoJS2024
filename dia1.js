@@ -14,3 +14,6 @@ function prepareGifts(gifts) {
   giftsUnique = giftsUnique.sort((a,b)=>a-b);
   return giftsUnique;
 }
+function prepareGifts(gifts) {
+  return Array.from(new Set(gifts.sort((a,b)=>a-b)));
+}
