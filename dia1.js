@@ -8,3 +8,9 @@ function prepareGifts(gifts) {
   giftsUnique = giftsUnique.sort((a,b)=>a-b);
   return giftsUnique;
 }
+function prepareGifts(gifts) {
+  let giftsUnique = [];
+  let comparacion = gifts.filter(element => {return !giftsUnique.includes(element)?giftsUnique.push(element):false})
+  giftsUnique = giftsUnique.sort((a,b)=>a-b);
+  return giftsUnique;
+}
