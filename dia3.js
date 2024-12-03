@@ -9,8 +9,16 @@ function organizeInventory(inventory) {
         } else {
             object[element.category][element.name] = element.quantity;
         }
-    } return object;
+    }
+    return object;
 }
+function organizeInventory(inventory) {
+    const object = {};
+    for (const element of inventory) {
+      object[element.category] = object[element.category] || {};
+      object[element.category][element.name] = (object[element.category][element.name] ?? 0) + element.quantity;
+    } return object;
+  }
 const inventary = [
     { name: 'doll', quantity: 5, category: 'toys' },
     { name: 'car', quantity: 3, category: 'toys' },
