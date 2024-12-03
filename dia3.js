@@ -1,6 +1,6 @@
 function organizeInventory(inventory) {
     const object = {};
-    inventory.forEach(element => {
+    for (const element of inventory) {
         if (!object[element.category]) {
             object[element.category] = {};
         }
@@ -9,8 +9,7 @@ function organizeInventory(inventory) {
         } else {
             object[element.category][element.name] = element.quantity;
         }
-    })
-    return object;
+    } return object;
 }
 const inventary = [
     { name: 'doll', quantity: 5, category: 'toys' },
