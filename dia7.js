@@ -1,44 +1,36 @@
 function fixPackages(packages) {
-    let arrayC = [];
-    let arrayU = [];
-    let contador = 0;
+    let accumulator = 0;
     for (let i = 0; i < packages.length; i++) {
         if (packages[i] == "(") {
-            arrayC.push(i);
-            contador++;
-        } else if (packages[i] == ")") {
-            arrayU.push(i);
+            accumulator++;
         }
     }
-    let maxLength = arrayC.reduce((maxLen, index) => { return Math.max(maxLen, index); }, 0);
-    if ((arrayU.every(element => element > maxLength)) == false) {
-        let firstElementC = arrayC.shift();
-        let lastElementU = arrayU.pop();
-        for (let i = 0; i < (contador - 1); i++) {
-            let string = "";
-            for (let j = arrayC[(contador - 1) - i] + 1; j <= arrayU[i] - 1; j++) {
-                string += packages[j];
+    while (accumulator > 0) {
+        let c = packages.indexOf("(");
+        let parenthesis = false;
+        while (parenthesis == false) {
+            for (let i = (c+1); i < packages.length; i++) {
+                if (packages[i] == "(") {
+                    c = i;
+                    i = packages.length;
+                } else if (packages[i] == ")") {
+                    let string = ""
+                    for (let j = (c+1); j < i; j++) {
+                        string += packages[j];
+                    }
+                    packages = packages.slice(0, i) + packages.slice(i + 1);
+                    packages = packages.slice(0, c) + packages.slice(c + 1);
+                    packages = packages.replace(string, string.split("").reverse().join(""));
+                    parenthesis = true;
+                    i = packages.length;
+                }
             }
-            packages = packages.replace(string, string.split("").reverse().join(""));
         }
-        let string = "";
-        for (let i = firstElementC; i < lastElementU; i++) {
-            string += packages[i];
-        }
-        packages = packages.replace(string, string.split("").reverse().join(""));
-    } else {
-        for (let i = 0; i < contador; i++) {
-            let string = "";
-            for (let j = arrayC[(contador - 1) - i] + 1; j <= arrayU[i] - 1; j++) {
-                string += packages[j];
-            }
-            packages = packages.replace(string, string.split("").reverse().join(""));
-        }
+        accumulator--;
     }
-    packages = packages.replaceAll("(", "");
-    packages = packages.replaceAll(")", "");
     return packages;
 }
+
 console.log(fixPackages('a(cb)de'));
 // ➞ "abcde"
 // Volteamos "cb" dentro de los paréntesis
