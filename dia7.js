@@ -1,10 +1,5 @@
 function fixPackages(packages) {
-    let accumulator = 0;
-    for (let i = 0; i < packages.length; i++) {
-        if (packages[i] == "(") {
-            accumulator++;
-        }
-    }
+    let accumulator = packages.split("(").length - 1;
     while (accumulator > 0) {
         let c = packages.indexOf("(");
         let parenthesis = false;
