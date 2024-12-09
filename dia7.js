@@ -4,13 +4,13 @@ function fixPackages(packages) {
         let c = packages.indexOf("(");
         let parenthesis = false;
         while (parenthesis == false) {
-            for (let i = (c+1); i < packages.length; i++) {
+            for (let i = (c + 1); i < packages.length; i++) {
                 if (packages[i] == "(") {
                     c = i;
                     i = packages.length;
                 } else if (packages[i] == ")") {
                     let string = ""
-                    for (let j = (c+1); j < i; j++) {
+                    for (let j = (c + 1); j < i; j++) {
                         string += packages[j];
                     }
                     packages = packages.slice(0, i) + packages.slice(i + 1);
@@ -22,6 +22,20 @@ function fixPackages(packages) {
             }
         }
         accumulator--;
+    }
+    return packages;
+}
+function fixPackages(packages) {
+    while (packages.includes("(")) {
+        let lastC = packages.lastIndexOf("(")
+        let firstU = packages.indexOf(")", lastC);
+        let string = "";
+        for (let j = lastC + 1; j < firstU; j++) {
+            string += packages[j];
+        }
+        packages = packages.slice(0, firstU) + packages.slice(firstU + 1);
+        packages = packages.slice(0, lastC) + packages.slice(lastC + 1);
+        packages = packages.replace(string, string.split("").reverse().join(""));
     }
     return packages;
 }
