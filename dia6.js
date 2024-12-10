@@ -6,7 +6,7 @@ function inBox(box) {
   }
 }
 function inBox(box) {
-  let boolean = true;
+  let boolean = false;
   if (box[0].includes("*") || box[box.length - 1].includes("*")) {
     boolean = false;
   } else {
@@ -22,6 +22,23 @@ function inBox(box) {
     }
   }
   return boolean;
+}
+function inBox(box) {
+  let isInBox = false;
+  if (!box.some(element => element.includes("*"))) {
+    isInBox = false;
+  } else {
+    for (let i = 1; i < box.length - 1; i++) {
+      if (box[i].includes("*")) {
+        isInBox = true;
+        if (box[i][0] == "*" || box[i][box[i].length - 1] == "*") {
+          isInBox = false;
+        }
+        i = box.length;
+      }
+    }
+  }
+  return isInBox;
 }
 console.log(inBox([
   "###",
