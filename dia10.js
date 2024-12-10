@@ -1,37 +1,45 @@
 function compile(instructions) {
-    let number = instructions[0].includes("MOV") ? parseInt(instructions[0].split(' ')[1].trim()) : 0;
-    let letter = "";
-    if (number >= 0 && instructions[0].includes("MOV")) {
-        letter = instructions[0][6];
-    } else if (number < 0 && instructions[0].includes("MOV")) {
-        letter = instructions[0][7];
+    let comands = {}
+    if (instructions[0].includes("MOV")) {
+        comands[instructions[0].split(" ")[2]] = parseInt(instructions[0].split(" ")[1]);
     } else {
-        letter = instructions[0][4];
+        comands[instructions[0].split(" ")[1]] = 0;
     }
     for (let i = 0; i < instructions.length; i++) {
-        switch (instructions[i].substring(0, 3)) {
+        const instruction = instructions[i].split(" ");
+        const command = instruction[0];
+        const letter = instruction[1];
+        const value = instruction[2];
+
+        switch (command) {
             case "INC":
-                if (letter == instructions[i][4]) {
-                    number++;
+                if (letter in comands) {
+                    comands[letter]++;
+                } else {
+                    comands[letter] = 1;
                 }
                 break;
             case "DEC":
-                if (letter == instructions[i][4]) {
-                    number--;
+                if (letter in comands) {
+                    comands[letter]--;
+                } else {
+                    comands[letter] = -1;
                 }
                 break;
             case "JMP":
-                if (letter == instructions[i][4]) {
-                    i = number == 0 ? i = parseInt(instructions[i][6]) - 1 : i = i;
+                if (letter in comands && comands[letter] === 0) {
+                    i = parseInt(value) - 1; // Salto a la instrucción con índice value - 1
                 }
                 break;
             case "MOV":
-                if (letter == instructions[i][4]) {
-                    letter = instructions[i][6];
+                if (letter in comands) {
+                    comands[instruction[2]] = comands[letter]; // Mover el valor de un registro a otro
                 }
+                break;
         }
     }
-    return number;
+    const entries = Object.entries(comands);
+    return entries[entries.length - 1][1];
 }
 
 const instructions = [
