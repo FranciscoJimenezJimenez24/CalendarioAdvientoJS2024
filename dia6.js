@@ -40,6 +40,19 @@ function inBox(box) {
   }
   return isInBox;
 }
+function inBox(box) {
+  let isInBox = false;
+  for (let i = 1; i < box.length - 1; i++) {
+    if (box[i].includes("*")) {
+      isInBox = true;
+      if (box[i][0] == "*" || box[i][box[i].length - 1] == "*") {
+        isInBox = false;
+      }
+      i = box.length;
+    }
+  }
+  return isInBox;
+}
 console.log(inBox([
   "###",
   "#*#",
