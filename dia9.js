@@ -120,6 +120,22 @@ function moveTrain(board, mov) {
             return "crash";
     }
 }
+function moveTrain(board, mov) {
+    let row = board.findIndex((line) => line.includes("@"));
+    let column = board[row].indexOf("@");
+    let position = "";
+    switch (mov) {
+        case "L": position = board[row]?.[column - 1]; break;
+        case "R": position = board[row]?.[column + 1]; break;
+        case "D": position = board[row + 1]?.[column]; break;
+        case "U": position = board[row - 1]?.[column]; break;
+    }
+    const result = {
+        "*": "eat",
+        "·": "none"
+    }
+    return result[position] ?? "crash";
+}
 const board = ['·····', '*····', '@····', 'o····', 'o····']
 
 console.log(moveTrain(board, 'U'))
