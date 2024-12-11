@@ -78,7 +78,27 @@ function moveTrain(board, mov) {
     }
     return result;
 }
-
+function moveTrain(board, mov) {
+    let row = board.findIndex((line) => line.includes("@"));
+    let column = board[row].indexOf("@");
+    let position = "";
+    switch (mov) {
+        case "L": position = column - 1 > -1 ? board[row][column - 1] : undefined; break;
+        case "R": position = column + 1 < board.length ? board[row][column + 1] : undefined; break;
+        case "D": position = row + 1 < board.length ? board[row + 1][column] : undefined; break;
+        case "U": position = row - 1 > -1 ? board[row - 1][column] : undefined; break;
+    }
+    switch (position) {
+        case undefined:
+            return "crash";
+        case "*":
+            return "eat";
+        case "·":
+            return "none";
+        case "o":
+            return "crash";
+    }
+}
 const board = ['·····', '*····', '@····', 'o····', 'o····']
 
 console.log(moveTrain(board, 'U'))

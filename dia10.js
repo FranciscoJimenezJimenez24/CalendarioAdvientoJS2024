@@ -8,21 +8,23 @@ function compile(instructions) {
 
         switch (command) {
             case "INC":
-                comands[argument1] = (comands[argument1] ?? 0) + 1;
+                comands[argument1] = (comands[argument1] || 0) + 1;
                 break;
 
             case "DEC":
-                comands[argument1] = (comands[argument1] ?? 0) - 1;
+                comands[argument1] = (comands[argument1] || 0) - 1;
                 break;
             case "JMP":
-                if ((comands[argument1] ?? 0) === 0) {
+                if ((comands[argument1] || 0) === 0) {
                     i = parseInt(argument2) - 1;
                 }
                 break;
             case "MOV":
-                comands[argument2] = isNaN(argument1) ? comands[argument1] ?? 0 : parseInt(argument1);
+                comands[argument2] = isNaN(argument1) ? comands[argument1] || 0 : parseInt(argument1);
                 break;
         }
+
+        
     }
     const entries = Object.entries(comands);
     let number = entries.map(
