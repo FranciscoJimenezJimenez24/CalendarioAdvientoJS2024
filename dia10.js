@@ -25,7 +25,14 @@ function compile(instructions) {
         }
     }
     const entries = Object.entries(comands);
-    return entries[entries.length - 1][1];
+    let number = entries.map(
+        (element) => {
+            if (element[0] == "A") {
+                return element[1];
+            }
+        }
+    )
+    return number.some(num => num != null) ? parseInt(number.join("")) : undefined;
 }
 
 const instructions = [
