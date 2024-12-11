@@ -5,12 +5,10 @@ function compile(instructions) {
         const command = instruction[0];
         const argument1 = instruction[1];
         const argument2 = instruction[2];
-
         switch (command) {
             case "INC":
                 comands[argument1] = (comands[argument1] || 0) + 1;
                 break;
-
             case "DEC":
                 comands[argument1] = (comands[argument1] || 0) - 1;
                 break;
@@ -23,20 +21,9 @@ function compile(instructions) {
                 comands[argument2] = isNaN(argument1) ? comands[argument1] || 0 : parseInt(argument1);
                 break;
         }
-
-        
     }
-    const entries = Object.entries(comands);
-    let number = entries.map(
-        (element) => {
-            if (element[0] == "A") {
-                return element[1];
-            }
-        }
-    )
-    return number.some(num => num != null) ? parseInt(number.join("")) : undefined;
+    return comands["A"] ?? undefined;
 }
-
 const instructions = [
     'MOV -1 C', // copia -1 al registro 'C',
     'INC C', // incrementa el valor del registro 'C'
