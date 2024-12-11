@@ -1,40 +1,26 @@
 function compile(instructions) {
     let comands = {}
-    if (instructions[0].includes("MOV")) {
-        comands[instructions[0].split(" ")[2]] = parseInt(instructions[0].split(" ")[1]);
-    } else {
-        comands[instructions[0].split(" ")[1]] = 0;
-    }
     for (let i = 0; i < instructions.length; i++) {
         const instruction = instructions[i].split(" ");
         const command = instruction[0];
-        const letter = instruction[1];
-        const value = instruction[2];
+        const argument1 = instruction[1];
+        const argument2 = instruction[2];
 
         switch (command) {
             case "INC":
-                if (letter in comands) {
-                    comands[letter]++;
-                } else {
-                    comands[letter] = 1;
-                }
+                comands[argument1] = (comands[argument1] ?? 0) + 1;
                 break;
+
             case "DEC":
-                if (letter in comands) {
-                    comands[letter]--;
-                } else {
-                    comands[letter] = -1;
-                }
+                comands[argument1] = (comands[argument1] ?? 0) - 1;
                 break;
             case "JMP":
-                if (letter in comands && comands[letter] === 0) {
-                    i = parseInt(value) - 1; // Salto a la instrucción con índice value - 1
+                if ((comands[argument1] ?? 0) === 0) {
+                    i = parseInt(argument2) - 1;
                 }
                 break;
             case "MOV":
-                if (letter in comands) {
-                    comands[instruction[2]] = comands[letter]; // Mover el valor de un registro a otro
-                }
+                comands[argument2] = isNaN(argument1) ? comands[argument1] ?? 0 : parseInt(argument1);
                 break;
         }
     }
@@ -53,3 +39,4 @@ const instructions = [
 console.log(compile(instructions)) // -> 2
 
 console.log(compile(["INC C", "DEC B", "MOV C Y", "INC Y"]));
+console.log(compile(["MOV 5 B", "DEC B", "MOV B A", "INC A"]));
