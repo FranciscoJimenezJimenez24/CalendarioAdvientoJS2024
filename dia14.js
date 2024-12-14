@@ -3,11 +3,7 @@ function minMovesToStables(reindeer, stables) {
     stables = stables.sort((a, b) => a - b);
     let movements = 0;
     for (let i = 0; i < reindeer.length; i++) {
-        if (reindeer[i] > stables[i]) {
-            movements += (reindeer[i] - stables[i]);
-        } else {
-            movements += (stables[i] - reindeer[i]);
-        }
+        movements += Math.abs((reindeer[i] - stables[i]))
     }
     return movements;
 }
