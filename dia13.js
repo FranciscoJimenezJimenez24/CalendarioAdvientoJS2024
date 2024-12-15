@@ -3,31 +3,30 @@ function isRobotBack(moves) {
     moves = moves.split("");
     for (let i = 0; i < moves.length; i++) {
         if (moves[i] == "!") {
-            moves[i] = moves[i] + moves[i + 1];
-            moves.splice(i + 1, 1);
-            switch (moves[i]) {
-                case "!L": moves[i] = "R"; break;
-                case "!R": moves[i] = "L"; break;
-                case "!D": moves[i] = "U"; break;
-                case "!U": moves[i] = "D"; break;
+            switch (moves[i + 1]) {
+                case 'L': moves[i] = 'R'; break;
+                case 'R': moves[i] = 'L'; break;
+                case 'D': moves[i] = 'U'; break;
+                case 'U': moves[i] = 'D'; break;
             }
+            moves.splice(i + 1, 1);
         } else if (moves[i] == "*") {
             moves[i] = moves[i + 1];
         }
     }
+    let visited = new Set();
     for (let i = 0; i < moves.length; i++) {
-        if (moves[i] == "?") {
-            if (moves[i - 1] == moves[i + 1]) {
-                moves[i] = moves[i + 1];
+        if (moves[i] === "?") {
+            const nextMove = moves[i + 1];
+            if (visited.has(nextMove)) {
                 moves.splice(i, 2);
+                i--;
             } else {
-                if (i - 1 == -1) {
-                    moves.splice(i, 2);
-                } else {
-                    moves.splice(i - 1, 3);
-                }
-                i -= 2;
+                visited.add(nextMove);
+                moves.splice(i, 1);
             }
+        } else {
+            visited.add(moves[i]);
         }
     }
     for (let i = 0; i < moves.length; i++) {
