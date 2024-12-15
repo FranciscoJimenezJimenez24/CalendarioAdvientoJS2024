@@ -1,43 +1,46 @@
 function isRobotBack(moves) {
-    let x = 0; let y = 0;
+    let position = [0, 0];
     moves = moves.split("");
-    for (let i = 0; i < moves.length; i++) {
-        if (moves[i] == "!") {
-            switch (moves[i + 1]) {
-                case 'L': moves[i] = 'R'; break;
-                case 'R': moves[i] = 'L'; break;
-                case 'D': moves[i] = 'U'; break;
-                case 'U': moves[i] = 'D'; break;
-            }
-            moves.splice(i + 1, 1);
-        } else if (moves[i] == "*") {
-            moves[i] = moves[i + 1];
-        }
-    }
     let visited = new Set();
-    for (let i = 0; i < moves.length; i++) {
-        if (moves[i] === "?") {
-            const nextMove = moves[i + 1];
-            if (visited.has(nextMove)) {
-                moves.splice(i, 2);
-                i--;
-            } else {
-                visited.add(nextMove);
-                moves.splice(i, 1);
-            }
-        } else {
-            visited.add(moves[i]);
-        }
+    let movements = {
+        "L": [-1, 0],
+        "R": [1, 0],
+        "D": [0, -1],
+        "U": [0, 1],
     }
     for (let i = 0; i < moves.length; i++) {
         switch (moves[i]) {
-            case "L": x--; break;
-            case "R": x++; break;
-            case "D": y--; break;
-            case "U": y++; break;
+            case "!":
+                switch (moves[i + 1]) {
+                    case 'L': moves[i] = 'R'; break;
+                    case 'R': moves[i] = 'L'; break;
+                    case 'D': moves[i] = 'U'; break;
+                    case 'U': moves[i] = 'D'; break;
+                }
+                moves.splice(i + 1, 1);
+                break;
+            case "*":
+                moves[i] = moves[i + 1];
+                break;
+            case "?":
+                const nextMove = moves[i + 1];
+                if (visited.has(nextMove)) {
+                    moves.splice(i, 2);
+                    i--;
+                } else {
+                    visited.add(nextMove);
+                    moves.splice(i, 1);
+                }
+                break;
+            default:
+                visited.add(moves[i]);
         }
     }
-    return x == 0 && y == 0 ? true : [x, y];
+    for (let i = 0; i < moves.length; i++) {
+        position[0] += movements[moves[i]][0]
+        position[1] += movements[moves[i]][1]
+    }
+    return position[0] == 0 && position[1] == 0 ? true : position;
 }
 
 console.log(isRobotBack('R'))// [1, 0]
