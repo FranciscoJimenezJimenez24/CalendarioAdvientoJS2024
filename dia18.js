@@ -48,21 +48,52 @@ function findInAgenda(agenda, phone) {
   }
   return null;
 }
+function findInAgenda2(agenda, phone) {
+  let enters = agenda.split('\n');
+  let result = null
+  for (let i = 0; i < enters.length; i++) {
+    if (enters[i].includes(phone)) {
+      let name = enters[i].substring(enters[i].indexOf("<") + 1, enters[i].indexOf(">"));
+      let lineSinName = enters[i].replace(enters[i].substring(enters[i].indexOf("<") , enters[i].indexOf(">")+1),"");
+      let address = lineSinName.split(' ').filter(element => !element.includes("+")).join(" ");
+      result = { name: name, address: address.trim() };
+      break;
+    }
+  }
+  return Object.keys(result).length > 0? result : null;
+}
+function findInAgenda(agenda, phone) {
+  let enters = agenda.split('\n');
+  let result = {};
+  let accumulator = 0;
+  for (let i = 0; i < enters.length; i++) {
+    if (enters[i].includes(phone)) {
+      accumulator++;
+      let startName = enters[i].indexOf('<') + 1;
+      let endName = enters[i].indexOf('>');
+      let name = enters[i].substring(startName, endName);
+      let lineWithoutName = enters[i].slice(0, startName - 1) + enters[i].slice(endName + 1);
+      let address = lineWithoutName.split(' ').filter(element => !element.includes("+")).join(' ').trim();
+      result = { name, address };
+    }
+  }
 
+  return accumulator === 1 ? result : null;
+}
 const agenda = `+34-600-123-456 Calle Gran Via 12 <Juan Perez>
 Plaza Mayor 45 Madrid 28013 <Maria Gomez> +34-600-987-654
 <Carlos Ruiz> +1-800-555-0199 Fifth Ave New York`
 
-console.log(findInAgenda(agenda, '34-600-123-456'))
+console.log(findInAgenda2(agenda, '34-600-123-456'))
 // { name: "Juan Perez", address: "Calle Gran Via 12" }
 
-console.log(findInAgenda(agenda, '600-987'))
+console.log(findInAgenda2(agenda, '600-987'))
 // { name: "Maria Gomez", address: "Plaza Mayor 45 Madrid 28013" }
 
-console.log(findInAgenda(agenda, '111'))
+console.log(findInAgenda2(agenda, '111'))
 // null
 // Explanation: No results
 
-console.log(findInAgenda(agenda, '1'))
+console.log(findInAgenda2(agenda, '1'))
 // null
 // Explanation: Too many results
