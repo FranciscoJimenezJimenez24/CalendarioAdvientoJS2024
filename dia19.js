@@ -26,16 +26,71 @@ function distributeWeight(weight) {
         presents += " _ \n|_|";
         break;
       case 2:
-        presents += boxes[i - 1] < boxes[i] ? " ___ \n|___|".substring(3, " ___ \n|___|".length) : " ___ \n|___|";
+        if (boxes[i - 1] == boxes[i]) {
+          presents += "\n|___|";
+        } else if (boxes[i - 1] < boxes[i]) {
+          presents += " ___\n|___|".substring((boxes[i - 1]) + 2, " ___ \n|___|".length);
+        } else {
+          presents += " ___ \n|___|";
+        }
         break;
       case 5:
-        presents += boxes[i - 1] < boxes[i] ? " _____ \n|     |\n|_____|".substring(6, " _____ \n|     |\n|_____|".length) : " _____ \n|     |\n|_____|";
+        if (boxes[i - 1] == boxes[i]) {
+          presents += "\n|     |\n|_____|";
+        } else if (boxes[i - 1] < boxes[i]) {
+          if (boxes[i - 1] % 2 == 0) {
+            presents += " _____\n|     |\n|_____|".substring((boxes[i - 1] + 3), " _____ \n|     |\n|_____|".length);
+          } else {
+            presents += " _____\n|     |\n|_____|".substring((boxes[i - 1] + 2), " _____ \n|     |\n|_____|".length);
+          }
+        } else {
+          presents += " _____ \n|     |\n|_____|";
+        }
         break;
       case 10:
-        presents += boxes[i - 1] < boxes[i] ? " _________ \n|         |\n|_________|".substring(11, " _________ \n|         |\n|_________|".length) : " _________ \n|         |\n|_________|";
+        if (boxes[i - 1] == boxes[i]) {
+          presents += "\n|         |\n|_________|";
+        } else if (boxes[i - 1] < boxes[i]) {
+          presents += " _________\n|         |\n|_________|".substring((boxes[i - 1]) + 2, " _________ \n|         |\n|_________|".length);
+        } else {
+          presents += " _________ \n|         |\n|_________|";
+        }
         break;
     }
   }
-
   return presents;
 }
+console.log(distributeWeight(1))
+// Devuelve:
+//  _
+// |_|
+
+console.log(distributeWeight(2))
+// Devuelve:
+//  ___
+// |___|
+
+console.log(distributeWeight(3))
+// Devuelve:
+//  _
+// |_|_
+// |___|
+
+console.log(distributeWeight(4))
+// Devuelve:
+//  ___
+// |___|
+// |___|
+
+console.log(distributeWeight(5))
+// Devuelve:
+//  _____
+// |     |
+// |_____|
+
+distributeWeight(6)
+// Devuelve:
+//  _
+// |_|___
+// |     |
+// |_____|
