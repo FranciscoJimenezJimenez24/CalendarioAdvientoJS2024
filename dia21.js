@@ -4,6 +4,12 @@ function treeHeight(tree) {
     let right = tree.right != null ? treeHeight(tree.right) : 0;
     return Math.max(left, right) + 1;
 }
+function treeHeight(tree) {
+    if (tree == null) return 0;
+    let left = treeHeight(tree.left);
+    let right = treeHeight(tree.right);
+    return Math.max(left, right) + 1;
+}
 const tree = {
     value: '🎁',
     left: {
