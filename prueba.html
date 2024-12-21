@@ -1,12 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>  
-    <script src="dia20.js"></script>
+
+<body>
+    <script>
+        function treeHeight(tree) {
+            if (tree == null) return 0;
+            let left = tree.left != null ? treeHeight(tree.left) : 0;
+            let right = tree.right != null ? treeHeight(tree.right) : 0;
+            return Math.max(left, right) + 1;
+        }
+        const tree = {
+            value: '🎁',
+            left: {
+                value: '🎄',
+                left: {
+                    value: '⭐',
+                    left: null,
+                    right: null
+                },
+                right: {
+                    value: '🎅',
+                    left: null,
+                    right: null
+                }
+            },
+            right: {
+                value: '❄️',
+                left: null,
+                right: {
+                    value: '🦌',
+                    left: null,
+                    right: null
+                }
+            }
+        }
+
+        // Representación gráfica del árbol:
+        //        🎁
+        //       /   \
+        //     🎄     ❄️
+        //    /  \      \
+        //  ⭐   🎅      🦌
+
+        // Llamada a la función
+        console.log(treeHeight(tree));
+        // Devuelve: 3
+
+        const unbalancedTree = {
+            value: '🎁',
+            left: {
+                value: '🎄',
+                left: {
+                    value: '⭐',
+                    left: null,
+                    right: null
+                },
+                right: null
+            },
+            right: null
+        };
+
+        console.log(treeHeight(unbalancedTree)); // Devuelve: 3
+    </script>
 </body>
+
 </html>
